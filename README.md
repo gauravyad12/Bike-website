@@ -80,7 +80,7 @@ On social media
 
 Instagram- https://www.instagram.com/youhaveme064/
 Email id- darkdev064@gmail.com
-Twitter- darkdev064
+Twitter- [https://twitter.com/darkdev064](https://x.com/darkdev064)
 
 
 
