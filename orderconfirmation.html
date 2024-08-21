@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+</head>
+<body class="confirmation-page">
+    <div class="confirmation-container">
+        <h1>Order Confirmation</h1>
+        <div id="order-details"></div>
+        <div class="confirmation-actions">
+            <a href="index.html" class="btn btn-primary"><i class="fas fa-home"></i> Back to Home</a>
+            <a href="cart.html" class="btn btn-secondary"><i class="fas fa-shopping-cart"></i> View All Orders</a>
+        </div>
+    </div>
+
+    <script>
+        function displayOrderConfirmation() {
+            const orderId = sessionStorage.getItem('currentOrderId');
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            const order = orders.find(o => o.id === orderId);
+
+            if (order) {
+                const orderDetails = document.getElementById('order-details');
+                orderDetails.innerHTML = `
+                    <h2>Thank you for your order!</h2>
+                    <p>Order ID: ${order.id}</p>
+                    <p>Date: ${new Date(order.date).toLocaleString()}</p>
+                    <p>Total: $${order.total.toFixed(2)}</p>
+                    <p>Status: ${order.status}</p>
+                    <p>Payment Method: ${order.paymentMethod}</p>
+                    <h3>Items:</h3>
+                    <ul>
+                        ${order.items.map(item => `<li>${item.name} - $${item.price.toFixed(2)}</li>`).join('')}
+                    </ul>
+                `;
+            } else {
+                document.getElementById('order-details').innerHTML = '<p>Order not found. Please check your order history.</p>';
+            }
+
+            // Clear the current order ID from sessionStorage
+            sessionStorage.removeItem('currentOrderId');
+        }
+
+        displayOrderConfirmation();
+    </script>
+    <script src="js/darkmode.js"></script>
+</body>
+</html>

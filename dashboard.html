@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Bike Website</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body class="dashboard-page">
+    <nav class="dashboard-sidebar">
+        <div class="sidebar-header">
+            <img src="image/logo.png" alt="Bike Shop Logo" class="logo">
+            <h2>Bike Shop</h2>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="#" data-section="overview" class="active"><i class="fas fa-tachometer-alt"></i> Overview</a></li>
+            <li><a href="order.html" data-section="orders"><i class="fas fa-shopping-cart"></i> Orders</a></li>
+            <li><a href="#" data-section="orderItems"><i class="fas fa-box-open"></i> Order Items</a></li>
+            <li><a href="profile-edit.html" data-section="profile"><i class="fas fa-user"></i> Profile</a></li>
+            <li><a href="#" data-section="settings"><i class="fas fa-cog"></i> Settings</a></li>
+            <li><a href="#" data-section="orderDetails"><i class="fas fa-dolly"></i> Order Details</a></li>
+            <li><a href="order.html"><i class="fas fa-list-alt"></i> Order History</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </nav>
+
+    <main class="dashboard-main">
+        <header class="dashboard-header">
+            <div class="header-search">
+                <input type="text" placeholder="Search...">
+                <i class="fas fa-search"></i>
+            </div>
+            <div class="header-user">
+                <img src="image/user-avatar.png" alt="User Avatar" class="user-avatar">
+                <span id="username">John Doe</span>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <section id="overview" class="dashboard-section active">
+                <h2>Overview</h2>
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <i class="fas fa-shopping-bag"></i>
+                        <div class="card-content">
+                            <h3>Total Orders</h3>
+                            <p class="card-value" id="totalOrders">0</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <i class="fas fa-dollar-sign"></i>
+                        <div class="card-content">
+                            <h3>Total Spent</h3>
+                            <p class="card-value" id="totalSpent">$0</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <i class="fas fa-bicycle"></i>
+                        <div class="card-content">
+                            <h3>Favorite Product</h3>
+                            <p class="card-value" id="favoriteProduct">N/A</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="recent-activity">
+                    <h3>Recent Activity</h3>
+                    <ul id="activityList">
+                        <!-- Activity items will be populated here -->
+                    </ul>
+                </div>
+            </section>
+
+            <section id="orders" class="dashboard-section">
+                <h2>Your Orders</h2>
+                <table id="ordersTable">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Date</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Orders will be populated here -->
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="orderItems" class="dashboard-section">
+                <h2>Order Items</h2>
+                <div class="order-items-controls">
+                    <input type="text" id="searchInput" placeholder="Search items...">
+                    <select id="sortSelect">
+                        <option value="name">Sort by Name</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                    </select>
+                </div>
+                <div class="order-items-container">
+                    <!-- Order items will be populated here -->
+                </div>
+            </section>
+
+            <section id="profile" class="dashboard-section">
+                <h2>Your Profile</h2>
+                <div id="profile-info"></div>
+                <a href="profile-edit.html" class="btn btn-primary">Edit Profile</a>
+            </section>
+
+            <section id="settings" class="dashboard-section">
+                <h2>Settings</h2>
+                <div class="form-group">
+                    <label for="darkMode">Dark Mode</label>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="darkMode" name="darkMode">
+                        <label for="darkMode" class="toggle-label"></label>
+                    </div>
+                </div>
+            </section>
+
+            <section id="orderDetails" class="dashboard-section">
+                <h2>Order Details</h2>
+                <div id="orderInfo"></div>
+                <div id="trackingInfo">
+                    <h3>Order Tracking</h3>
+                    <ul id="trackingList" class="tracking-list"></ul>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <button id="darkModeToggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+    <script src="js/dashboard.js"></script>
+    <script src="js/darkmode.js"></script>
+    <script>
+        function loadOrderHistory() {
+            const ordersTable = document.getElementById('ordersTable').getElementsByTagName('tbody')[0];
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+
+            ordersTable.innerHTML = ''; // Clear existing rows
+
+            orders.forEach(order => {
+                const row = ordersTable.insertRow();
+                row.innerHTML = `
+                    <td>${order.id}</td>
+                    <td>${order.date}</td>
+                    <td>$${order.total.toFixed(2)}</td>
+                    <td>${order.status}</td>
+                    <td><button onclick="viewOrderDetails('${order.id}')">View Details</button></td>
+                `;
+            });
+
+            // Update total orders in the overview
+            updateTotalOrders(orders.length);
+        }
+
+        function updateTotalOrders(count) {
+            const totalOrdersElement = document.getElementById('totalOrders');
+            totalOrdersElement.textContent = count;
+        }
+
+        function viewOrderDetails(orderId) {
+            // Implement this function to show order details
+            console.log(`Viewing details for order ${orderId}`);
+            // You can navigate to a new page or show a modal with order details
+        }
+
+        // Function to check for new orders
+        function checkForNewOrders() {
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            updateTotalOrders(orders.length);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadOrderHistory();
+            
+            // Check for new orders every 5 seconds
+            setInterval(checkForNewOrders, 5000);
+        });
+
+        // Listen for storage events to update in real-time across tabs
+        window.addEventListener('storage', (event) => {
+            if (event.key === 'orders') {
+                loadOrderHistory();
+            }
+        });
+    </script>
+</body>
+</html>

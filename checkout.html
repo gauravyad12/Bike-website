@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+</head>
+<body class="checkout-page">
+    <div class="checkout-container">
+        <h1>Checkout</h1>
+        <div id="cart-summary"></div>
+        <div class="payment-options">
+            <h2>Select Payment Method</h2>
+            <button onclick="selectPayment('card')" class="payment-button">Credit/Debit Card</button>
+            <button onclick="selectPayment('banking')" class="payment-button">Net Banking</button>
+            <button onclick="selectPayment('paytm')" class="payment-button">Paytm</button>
+            <button onclick="selectPayment('cod')" class="payment-button">Cash on Delivery</button>
+        </div>
+        <div id="payment-forms">
+            <div id="card-form" class="payment-form" style="display:none;">
+                <h3>Card</h3>
+                <form>
+                    <label for="card-number">Card Number:</label>
+                    <input type="text" id="card-number" placeholder="Enter card number">
+                    <label for="card-expiry">Expiry:</label>
+                    <input type="text" id="card-expiry" placeholder="MM/YY">
+                    <label for="card-cvv">CVV:</label>
+                    <input type="text" id="card-cvv" placeholder="CVV">
+                    <button type="button" onclick="confirmPayment('card')">Pay</button>
+                </form>
+            </div>
+            <div id="banking-info" class="payment-info" style="display:none;">
+                <h3>Net Banking Information</h3>
+                <p>Please use the following details to complete your payment:</p>
+                <p>Bank: Example Bank</p>
+                <p>Account Number: 1234567890</p>
+                <p>IFSC Code: EXBK0001234</p>
+                <button type="button" onclick="confirmPayment('banking')">I've Completed the Payment</button>
+            </div>
+            <div id="paytm-info" class="payment-info" style="display:none;">
+                <h3>Paytm QR Code</h3>
+                <img src="image/paytm.png" alt="Paytm QR Code">
+                <button type="button" onclick="confirmPayment('paytm')">I've Completed the Payment</button>
+            </div>
+            <div id="cod-info" class="payment-info" style="display:none;">
+                <h3>Cash on Delivery</h3>
+                <p>You will pay in cash when your order is delivered.</p>
+                <button type="button" onclick="confirmPayment('cod')">Place Order</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generateOrderId() {
+            return `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+        }
+
+        function selectPayment(method) {
+            // Hide all payment forms
+            document.querySelectorAll('.payment-form, .payment-info').forEach(el => el.style.display = 'none');
+
+            // Show selected payment form
+            const selectedElement = document.getElementById(`${method}-form`) || document.getElementById(`${method}-info`);
+            if (selectedElement) {
+                selectedElement.style.display = 'block';
+            } else {
+                console.error(`Payment method '${method}' not found`);
+            }
+        }
+
+        function confirmPayment(method) {
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            const total = cartItems.reduce((sum, item) => sum + item.price, 0);
+            
+            const order = {
+                id: generateOrderId(),
+                date: new Date().toISOString(),
+                total: total,
+                status: 'Completed',
+                items: cartItems,
+                paymentMethod: method
+            };
+
+            // Get existing orders or initialize an empty array
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            
+            // Add the new order
+            orders.push(order);
+
+            // Save updated orders back to localStorage
+            localStorage.setItem('orders', JSON.stringify(orders));
+
+            // Clear the cart
+            localStorage.removeItem('cartItems');
+
+            // Store the current order ID in sessionStorage
+            sessionStorage.setItem('currentOrderId', order.id);
+
+            // Redirect to the order confirmation page
+            window.location.href = 'orderconfirmation.html';
+        }
+
+        // Show the first payment method by default
+        selectPayment('card');
+    </script>
+    <script src="js/darkmode.js"></script>
+</body>
+</html>

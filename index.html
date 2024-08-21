@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <title>Bike Website</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+  <!--  animejs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha512-z4OUqw38qNLpn1libAN9BsoDx6nbNFio5lA6CuTp9NlK83b89hgyCVq+N5FdBJptINztxn1Z3SaKSKUS5UP60Q==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  </script>
+  <!--  animejs -->
+  <!--  owl css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+  <!--  owl css -->
+
+  <!--  jquery -->
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+  <!--  jquery -->
+
+  <!-- EmailJS -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="container flex1">
+      <div class="logo">
+        <img src="image/logo.png" alt="">
+      </div>
+      <div class="menu">
+        <div class="main_list" id="mainListDiv">
+          <ul>
+            <li> <a href="#">Home</a> </li>
+            <li> <a href="#">About</a> </li>
+            <li> <a href="#">My Work</a> </li>
+            <li> <a href="#">Design</a> </li>
+            <li> <a href="#">Contact</a> </li>
+          </ul>
+        </div>
+      </div>
+      <div class="media_button">
+        <i class="fas fa-bars" id="mediaButton"></i>
+      </div>
+
+      <div class="account flex1" id="accountSection">
+        <i class="far fa-unlock-alt"></i>
+        <a href="login.html" id="loginLink">Login</a> / <a href="register.html">Register</a>
+      </div>
+    </div>
+  </nav>
+  <script type="text/javascript">
+    var mainListDiv = document.getElementById("mainListDiv");
+    mediaButton = document.getElementById('mediaButton');
+
+    mediaButton.onclick = function() {
+      mainListDiv.classList.toggle('show_list');
+      mediaButton.classList.toggle('active');
+    }
+
+    // Check login status and update navigation
+    function updateNavigation() {
+      const accountSection = document.getElementById('accountSection');
+      const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
+      const username = localStorage.getItem('username');
+
+      if (isLoggedIn && username) {
+        accountSection.innerHTML = `
+          <i class="far fa-user"></i>
+          <span>Welcome, ${username}</span> |
+          <a href="dashboard.html">Dashboard</a> |
+          <a href="order.html">Orders</a> |
+          <a href="#" id="logoutLink">Logout</a>
+        `;
+        document.getElementById('logoutLink').addEventListener('click', logout);
+      } else {
+        accountSection.innerHTML = `
+          <i class="far fa-unlock-alt"></i>
+          <a href="login.html">Login</a> / <a href="register.html">Register</a>
+        `;
+      }
+    }
+
+    // Logout function
+    function logout(e) {
+      e.preventDefault();
+      localStorage.removeItem('loggedIn');
+      localStorage.removeItem('username');
+      updateNavigation();
+    }
+
+    // Call updateNavigation when the page loads
+    document.addEventListener('DOMContentLoaded', updateNavigation);
+  </script>
+
+  <section class="home">
+    <div class="content flex">
+      <div class="left">
+        <div class="time_box flex">
+          <div class="time">
+            <h1 id="days">00</h1>
+            <span>DAYS</span>
+          </div>
+          <div class="time">
+            <h1 id="hours">00</h1>
+            <span>HOURS</span>
+          </div>
+          <div class="time">
+            <h1 id="minutes">00</h1>
+            <span>MINUTES</span>
+          </div>
+          <div class="time">
+            <h1 id="seconds">00</h1>
+            <span>SECONDS</span>
+          </div>
+        </div>
+
+        <h2>Lunching New Bike</h2>
+        <p> Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+        <div class="button flex">
+          <button class="btn1">Learn More</button>
+          <button class="btn2">Buy Now </button>
+        </div>
+      </div>
+
+      <div class="right">
+        <div class="ani_image">
+          <img src="image/bike.png" alt="">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="latest top">
+    <div class="scontainer">
+      <div class="heading">
+        <h1>Latest Popular Bike</h1>
+        <div class="lines flex1">
+          <div class="line"> <i class="fas fa-circle"></i> </div>
+          <button>50% OFF</button>
+          <div class="line line2"> <i class="fas fa-circle"></i> </div>
+        </div>
+      </div>
+
+      <div class="content grid top">
+        <div class="box">
+          <div class="img">
+            <img src="image/l1.png" alt="">
+            <div class="flex1">
+              <label>50%</label>
+              <i class="fas fa-heart"></i>
+            </div>
+          </div>
+
+          <div class="detalis">
+            <h3>Aerion Carrbo Helmet</h3>
+            <p>(Fashion , Twin Disc)</p>
+            <h2>$699 <span>$799</span> </h2>
+            <button class="add-to-cart-btn" onclick="addToCart('Aerion Carrbo Helmet', 699)">Add to Cart</button>
+            <a href="cart.html" class="cart-link">View Cart (<span id="cart-count">0</span>)</a>
+          </div>
+        </div>
+        <div class="box">
+          <div class="img">
+            <img src="image/l2.png" alt="">
+            <div class="flex1">
+              <label>50%</label>
+              <i class="fas fa-heart"></i>
+            </div>
+          </div>
+
+          <div class="detalis">
+            <h3>Mountain Bike Helmet</h3>
+            <p>(Sports , Protective Gear)</p>
+            <h2>$549 <span>$649</span> </h2>
+            <button class="add-to-cart-btn" onclick="addToCart('Mountain Bike Helmet', 549)">Add to Cart</button>
+            <a href="cart.html" class="cart-link">View Cart (<span id="cart-count">0</span>)</a>
+          </div>
+        </div>
+        <div class="box">
+          <div class="img">
+            <img src="image/l3.png" alt="">
+            <div class="flex1">
+              <label>50%</label>
+              <i class="fas fa-heart"></i>
+            </div>
+          </div>
+
+          <div class="detalis">
+            <h3>Racing Bike Helmet</h3>
+            <p>(Performance , Aerodynamic)</p>
+            <h2>$799 <span>$999</span> </h2>
+            <button class="add-to-cart-btn" onclick="addToCart('Racing Bike Helmet', 799)">Add to Cart</button>
+            <a href="cart.html" class="cart-link">View Cart (<span id="cart-count">0</span>)</a>
+          </div>
+        </div>
+        <div class="box">
+          <div class="img">
+            <img src="image/l4.png" alt="">
+            <div class="flex1">
+              <label>50%</label>
+              <i class="fas fa-heart"></i>
+            </div>
+          </div>
+
+          <div class="detalis">
+            <h3>Off-Road Bike Helmet</h3>
+            <p>(Adventure , Durable)</p>
+            <h2>$899 <span>$1099</span> </h2>
+            <button class="add-to-cart-btn" onclick="addToCart('Off-Road Bike Helmet', 899)">Add to Cart</button>
+            <a href="cart.html" class="cart-link">View Cart (<span id="cart-count">0</span>)</a>
+          </div>
+        </div>
+        <div class="box">
+          <div class="img">
+            <img src="image/l5.png" alt="">
+            <div class="flex1">
+              <label>50%</label>
+              <i class="fas fa-heart"></i>
+            </div>
+          </div>
+
+          <div class="detalis">
+            <h3>Touring Bike Helmet</h3>
+            <p>(Comfort , Ventilation)</p>
+            <h2>$749 <span>$899</span> </h2>
+            <button class="add-to-cart-btn" onclick="addToCart('Touring Bike Helmet', 749)">Add to Cart</button>
+            <a href="cart.html" class="cart-link">View Cart (<span id="cart-count">0</span>)</a>
+          </div>
+        </div>
+        <div class="box">
+          <div class="img">
+            <img src="image/l6.png" alt="">
+            <div class="flex1">
+              <label>50%</label>
+              <i class="fas fa-heart"></i>
+            </div>
+          </div>
+
+          <div class="detalis">
+            <h3>Cyclocross Bike Helmet</h3>
+            <p>(Versatile , Lightweight)</p>
+            <h2>$699 <span>$899</span> </h2>
+            <button class="add-to-cart-btn" onclick="addToCart('Cyclocross Bike Helmet', 699)">Add to Cart</button>
+            <a href="cart.html" class="cart-link">View Cart (<span id="cart-count">0</span>)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"
+    referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js" integrity="sha512-gY25nC63ddE0LcLPhxUJGFxa2GoIyA5FLym4UJqHDEMHjp8RET6Zn/SHo1sltt3WuVtqfyxECP38/daUc/WVEA==" crossorigin="anonymous"
+    referrerpolicy="no-referrer"></script>
+
+
+  <script>
+    $('.owl-carousel').owlCarousel({
+      loop: true,
+      margin: 10,
+      nav: true,
+      dots: false,
+      navText: ["<i class='far fa-chevron-left'></i>", "<i class='far fa-chevron-right'></i>"],
+      responsive: {
+        0: {
+          items: 1
+        },
+        768: {
+          items: 1
+        },
+        1000: {
+          items: 1
+        }
+      }
+    })
+  </script>
+
+
+
+  
+
+    </div>
+  </section>
+
+
+  <script>
+    $('.owl-carousel').owlCarousel({
+      loop: true,
+      margin: 10,
+      nav: true,
+      dots: false,
+      navText: ["<i class='far fa-chevron-left'></i>", "<i class='far fa-chevron-right'></i>"],
+      responsive: {
+        0: {
+          items: 1
+        },
+        768: {
+          items: 2
+        },
+        1000: {
+          items: 3
+        }
+      }
+    })
+  </script>
+
+
+
+  <section class="wrapper top">
+    <div class="scontainer">
+      <div class="text">
+        <p>(World's Thinnest SUPER DUKE)</p>
+        <h1>1290 Super Duke Gt 2021</h1>
+        <h3>Price : $5168.00</h3>
+        <button class="btn2">Buy Now</button>
+      </div>
+      <div class="ani_image">
+        <img src="image/bike3.png" alt="">
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="latest Assesories top">
+    <div class="scontainer">
+      <div class="heading">
+        <h1>Choose Bike Assesories</h1>
+        <div class="lines flex1">
+          <div class="line"> <i class="fas fa-circle"></i> </div>
+          <button>25% OFF</button>
+          <div class="line line2"> <i class="fas fa-circle"></i> </div>
+        </div>
+      </div>
+
+      <div class="content grid top">
+        <div class="box">
+          <div class="img">
+            <img src="image/a1.png" alt="">
+            <div class="flex1">
+              <label>50%</label>
+              <i class="fas fa-heart"></i>
+            </div>
+          </div>
+
+          <div class="detalis">
+            <h3>Aerion Carrbo Helmet</h3>
+            <p>(Fashion , Twin Disc)</p>
+            <h2>$699 <span>$799</span> </h2>
+            <button class="add-to-cart-btn" onclick="addToCart('Aerion Carrbo Helmet', 699)">Add to Cart</button>
+            <a href="cart.html" class="cart-link">View Cart (<span id="cart-count">0</span>)</a>
+          </div>
+        </div>
+        <div class="box">
+          <div class="img">
+            <img src="image/a2.png" alt="">
+            <div class="flex1">
+              <label>50%</label>
+              <i class="fas fa-heart"></i>
+            </div>
+          </div>
+
+          <div class="detalis">
+            <h3>Mountain Bike Helmet</h3>
+            <p>(Sports , Protective Gear)</p>
+            <h2>$549 <span>$649</span> </h2>
+            <button class="add-to-cart-btn" onclick="addToCart('Mountain Bike Helmet', 549)">Add to Cart</button>
+            <a href="cart.html" class="cart-link">View Cart (<span id="cart-count">0</span>)</a>
+          </div>
+        </div>
+        <div class="box">
+          <div class="img">
+            <img src="image/a3.png" alt="">
+            <div class="flex1">
+              <label>50%</label>
+              <i class="fas fa-heart"></i>
+            </div>
+          </div>
+
+          <div class="detalis">
+            <h3>Racing Bike Helmet</h3>
+            <p>(Performance , Aerodynamic)</p>
+            <h2>$799 <span>$999</span> </h2>
+            <button class="add-to-cart-btn" onclick="addToCart('Racing Bike Helmet', 799)">Add to Cart</button>
+            <a href="cart.html" class="cart-link">View Cart (<span id="cart-count">0</span>)</a>
+          </div>
+        </div>
+        <div class="box">
+          <div class="img">
+            <img src="image/a4.png" alt="">
+            <div class="flex1">
+              <label>50%</label>
+              <i class="fas fa-heart"></i>
+            </div>
+          </div>
+
+          <div class="detalis">
+            <h3>Off-Road Bike Helmet</h3>
+            <p>(Adventure , Durable)</p>
+            <h2>$899 <span>$1099</span> </h2>
+            <button class="add-to-cart-btn" onclick="addToCart('Off-Road Bike Helmet', 899)">Add to Cart</button>
+            <a href="cart.html" class="cart-link">View Cart (<span id="cart-count">0</span>)</a>
+          </div>
+        </div>
+        <div class="box">
+          <div class="img">
+            <img src="image/a5.png" alt="">
+            <div class="flex1">
+              <label>50%</label>
+              <i class="fas fa-heart"></i>
+            </div>
+          </div>
+
+          <div class="detalis">
+            <h3>Touring Bike Helmet</h3>
+            <p>(Comfort , Ventilation)</p>
+            <h2>$749 <span>$899</span> </h2>
+            <button class="add-to-cart-btn" onclick="addToCart('Touring Bike Helmet', 749)">Add to Cart</button>
+            <a href="cart.html" class="cart-link">View Cart (<span id="cart-count">0</span>)</a>
+          </div>
+        </div>
+        <div class="box">
+          <div class="img">
+            <img src="image/a6.png" alt="">
+            <div class="flex1">
+              <label>50%</label>
+              <i class="fas fa-heart"></i>
+            </div>
+          </div>
+
+          <div class="detalis">
+            <h3>Cyclocross Bike Helmet</h3>
+            <p>(Versatile , Lightweight)</p>
+            <h2>$699 <span>$899</span> </h2>
+            <button class="add-to-cart-btn" onclick="addToCart('Cyclocross Bike Helmet', 699)">Add to Cart</button>
+            <a href="cart.html" class="cart-link">View Cart (<span id="cart-count">0</span>)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="shipping">
+    <div class="scontainer grid">
+      <div class="box flex">
+        <div class="img">
+          <i class="fas fa-shipping-fast"></i>
+        </div>
+        <div class="text">
+          <h3>Free Shipping & Return</h3>
+          <p>Worldwide Free Shipping on Order Over $200</p>
+        </div>
+      </div>
+      <div class="box flex">
+        <div class="img">
+          <i class='far fa-hourglass'></i>
+        </div>
+        <div class="text">
+          <h3>Free Shipping & Return</h3>
+          <p>Worldwide Free Shipping on Order Over $200</p>
+        </div>
+      </div>
+      <div class="box flex">
+        <div class="img">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <div class="text">
+          <h3>Free Shipping & Return</h3>
+          <p>Worldwide Free Shipping on Order Over $200</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer>
+    <div class="scontainer grid">
+      <div class="box">
+        <div class="logo">
+          <img src="image/logo.png" alt="">
+        </div>
+        <p> Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <h1>+ 1234567890</h1>
+        <small>Email : darkdev064@gmail.com</small>
+      </div>
+
+      <div class="box">
+        <h3>Customer Services</h3>
+        <div class="flex1">
+          <ul>
+            <li>Help</li>
+            <li>Contact Us</li>
+            <li>Warranty</li>
+            <li>Terms & Conditions</li>
+            <li>Shopping information</li>
+            <li>Gift Vocher</li>
+          </ul>
+          <ul>
+            <li>My Account</li>
+            <li>Arder Status </li>
+            <li>Payment</li>
+            <li>Oders </li>
+            <li>Cancellation </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="box">
+        <h3>Let's stay in touch</h3>
+        <form id="emailForm">
+          <div class="input flex1">
+            <input type="email" name="reply_to" id="reply_to" placeholder="Email Address" required>
+            <input type="message" name="message" id="message" placeholder="Your message" required>
+          </div>
+          <div class="input flex1">
+            <button type="submit"><i class="far fa-long-arrow-right"></i> Subscribe</button>
+          </div>
+        </form>
+        <p id="emailStatus"></p>
+
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+        <script type="text/javascript">
+          emailjs.init('MFOyTZN-AVcqolgmm')
+
+          document.getElementById('emailForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var status = document.getElementById('emailStatus');
+            status.textContent = "Sending...";
+
+            emailjs.sendForm('service_qlwz8m9', 'template_p6olqzg', this)
+              .then(function() {
+                status.textContent = "Thanks for subscribing!";
+                document.getElementById('emailForm').reset();
+              }, function(error) {
+                console.error('Error:', error);
+                status.textContent = "An error occurred. Please try again later.";
+              });
+          });
+        </script>
+
+        <div class="social_media">
+          <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://twitter.com/" target="_blank"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.youtube.com/" target="_blank"><i class="fab fa-youtube"></i></a>
+          <a href="https://www.google.com/" target="_blank"><i class="fab fa-google"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    anime({
+      targets: '.ani_image',
+      translateX: 70,
+      loop: true,
+      direction: 'alternate',
+      easing: 'easeInOutSine'
+    });
+  </script>
+
+  <script>
+    let cartItems = [];
+    let cartCount = 0;
+
+    function addToCart(itemName, price) {
+      let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+      cartItems.push({ name: itemName, price: price });
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+      cartCount++;
+      updateCartCount();
+      alert(itemName + " added to cart!");
+    }
+
+    function updateCartCount() {
+      document.getElementById('cart-count').textContent = cartCount;
+    }
+
+    // Initialize cart count on page load
+    window.onload = function() {
+      let storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+      cartCount = storedCartItems.length;
+      updateCartCount();
+    }
+  </script>
+
+  <script>
+    // Set the date we're counting down to (e.g., 60 days from now)
+    var countDownDate = new Date();
+    countDownDate.setDate(countDownDate.getDate() + 60);
+
+    function updateCountdown() {
+        var now = new Date().getTime();
+        var distance = countDownDate - now;
+
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Pad the numbers with leading zeros
+        days = days.toString().padStart(2, '0');
+        hours = hours.toString().padStart(2, '0');
+        minutes = minutes.toString().padStart(2, '0');
+        seconds = seconds.toString().padStart(2, '0');
+
+        document.getElementById("days").innerHTML = days;
+        document.getElementById("hours").innerHTML = hours;
+        document.getElementById("minutes").innerHTML = minutes;
+        document.getElementById("seconds").innerHTML = seconds;
+
+        // If the count down is finished, write some text
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("days").innerHTML = "00";
+            document.getElementById("hours").innerHTML = "00";
+            document.getElementById("minutes").innerHTML = "00";
+            document.getElementById("seconds").innerHTML = "00";
+        }
+    }
+
+    // Update the count down every 1 second
+    updateCountdown();
+    var x = setInterval(updateCountdown, 1000);
+  </script>
+
+  <script src="js/darkmode.js"></script>
+</body>
+
+</html>

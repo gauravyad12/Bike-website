@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <!-- Copy the nav section from index.html -->
+    </nav>
+
+    <div class="container">
+        <h1>Order History</h1>
+        <table id="orderTable">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Date</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Order rows will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function loadOrders() {
+            const orderTable = document.getElementById('orderTable').getElementsByTagName('tbody')[0];
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+
+            orders.forEach(order => {
+                const row = orderTable.insertRow();
+                row.insertCell(0).textContent = order.id;
+                row.insertCell(1).textContent = order.date;
+                row.insertCell(2).textContent = '$' + order.total.toFixed(2);
+                row.insertCell(3).textContent = order.status;
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadOrders();
+            updateNavigation();
+        });
+
+        // Copy the updateNavigation and logout functions from index.html
+    </script>
+    <script src="js/darkmode.js"></script>
+</body>
+</html>

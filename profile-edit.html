@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="dashboard-page">
+    <nav class="dashboard-sidebar">
+        <!-- Copy the sidebar content from your dashboard.html -->
+    </nav>
+
+    <main class="dashboard-main">
+        <header class="dashboard-header">
+            <!-- Copy the header content from your dashboard.html -->
+        </header>
+
+        <div class="dashboard-content">
+            <section id="profile" class="dashboard-section active">
+                <h2>Edit Profile</h2>
+                <form id="profile-form" enctype="multipart/form-data">
+                    <div class="profile-photo">
+                        <img id="profile-image" src="image/default-profile.png" alt="Profile Photo">
+                        <input type="file" id="photo-upload" accept="image/*">
+                        <label for="photo-upload" class="btn btn-secondary">Change Photo</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="current-password">Current Password</label>
+                        <input type="password" id="current-password" name="current-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password">New Password (leave blank if unchanged)</label>
+                        <input type="password" id="new-password" name="new-password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <script src="js/dashboard.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('profile-form');
+            const profileImage = document.getElementById('profile-image');
+            const photoUpload = document.getElementById('photo-upload');
+
+            // Load existing user data
+            const userData = JSON.parse(localStorage.getItem('userData')) || {};
+            document.getElementById('name').value = userData.name || '';
+            document.getElementById('email').value = userData.email || '';
+            document.getElementById('phone').value = userData.phone || '';
+            if (userData.profilePhoto) {
+                profileImage.src = userData.profilePhoto;
+            }
+
+            // Handle photo upload
+            photoUpload.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        profileImage.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Handle form submission
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const currentPassword = document.getElementById('current-password').value;
+                // In a real application, you would verify the current password here
+
+                const newUserData = {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    profilePhoto: profileImage.src
+                };
+
+                const newPassword = document.getElementById('new-password').value;
+                if (newPassword) {
+                    newUserData.password = newPassword; // In a real app, this should be hashed
+                }
+
+                // Save the updated user data
+                localStorage.setItem('userData', JSON.stringify(newUserData));
+
+                alert('Profile updated successfully!');
+                // Redirect back to the dashboard
+                window.location.href = 'dashboard.html#profile';
+            });
+        });
+    </script>
+    <script src="js/darkmode.js"></script>
+</body>
+</html>

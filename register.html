@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Bike Website</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-page">
+    <nav class="dashboard-sidebar">
+        <div class="sidebar-header">
+            <img src="image/logo.png" alt="Bike Shop Logo" class="logo">
+            <h2>Bike Shop</h2>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="#" data-section="overview" class="active"><i class="fas fa-tachometer-alt"></i> Overview</a></li>
+            <li><a href="#" data-section="orders"><i class="fas fa-shopping-cart"></i> Orders</a></li>
+            <li><a href="#" data-section="profile"><i class="fas fa-user"></i> Profile</a></li>
+            <li><a href="#" data-section="settings"><i class="fas fa-cog"></i> Settings</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </nav>
+
+    <main class="dashboard-main">
+        <header class="dashboard-header">
+            <div class="header-search">
+                <input type="text" placeholder="Search...">
+                <i class="fas fa-search"></i>
+            </div>
+            <div class="header-user">
+                <img src="image/user-avatar.png" alt="User Avatar" class="user-avatar">
+                <span id="username">John Doe</span>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <section id="overview" class="dashboard-section active">
+                <h2>Overview</h2>
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <i class="fas fa-shopping-bag"></i>
+                        <div class="card-content">
+                            <h3>Total Orders</h3>
+                            <p class="card-value" id="totalOrders">0</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <i class="fas fa-dollar-sign"></i>
+                        <div class="card-content">
+                            <h3>Total Spent</h3>
+                            <p class="card-value" id="totalSpent">$0</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <i class="fas fa-bicycle"></i>
+                        <div class="card-content">
+                            <h3>Favorite Product</h3>
+                            <p class="card-value" id="favoriteProduct">N/A</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="recent-activity">
+                    <h3>Recent Activity</h3>
+                    <ul id="activityList">
+                        <!-- Activity items will be populated here -->
+                    </ul>
+                </div>
+            </section>
+
+            <section id="orders" class="dashboard-section">
+                <h2>Your Orders</h2>
+                <table id="ordersTable">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Date</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Orders will be populated here -->
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="profile" class="dashboard-section">
+                <h2>Your Profile</h2>
+                <form id="profileForm" class="dashboard-form">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                </form>
+            </section>
+
+            <section id="settings" class="dashboard-section">
+                <h2>Settings</h2>
+                <form id="settingsForm" class="dashboard-form">
+                    <div class="form-group">
+                        <label for="notifications">Email Notifications</label>
+                        <label class="switch">
+                            <input type="checkbox" id="notifications" name="notifications">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="theme">Theme</label>
+                        <select id="theme" name="theme">
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="darkMode">Dark Mode</label>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="darkMode" name="darkMode">
+                            <label for="darkMode" class="toggle-label"></label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Settings</button>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <script src="js/dashboard.js"></script>
+    <script src="js/darkmode.js"></script>
+</body>
+</html>

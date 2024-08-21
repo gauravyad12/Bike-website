@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+</head>
+<body class="cart-page">
+    <div class="cart-container">
+        <h1>Your Shopping Cart</h1>
+        <div id="cart-items"></div>
+        <div class="cart-summary">
+            <p>Total: $<span id="cart-total">0</span></p>
+            <button onclick="emptyCart()" class="btn btn-danger"><i class="fas fa-trash"></i> Empty Cart</button>
+        </div>
+        <div class="cart-actions">
+            <a href="index.html" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Continue Shopping</a>
+            <a href="checkout.html" id="checkout-btn" class="btn btn-primary"><i class="fas fa-shopping-cart"></i> Proceed to Checkout</a>
+        </div>
+    </div>
+
+    <div class="order-list-container">
+        <h2>Your Orders</h2>
+        <div id="order-list"></div>
+    </div>
+
+    <button id="darkModeToggle">Toggle Dark Mode</button>
+
+    <script>
+        function displayCart() {
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            const cartList = document.getElementById('cart-items');
+            const totalElement = document.getElementById('cart-total');
+            const checkoutBtn = document.getElementById('checkout-btn');
+            let total = 0;
+
+            cartList.innerHTML = '';
+            if (cartItems.length === 0) {
+                cartList.innerHTML = '<p class="empty-cart">Your cart is empty.</p>';
+            } else {
+                cartItems.forEach((item, index) => {
+                    const cartItem = document.createElement('div');
+                    cartItem.className = 'cart-item';
+                    cartItem.innerHTML = `
+                        <span class="item-name">${item.name}</span>
+                        <span class="item-price">$${item.price.toFixed(2)}</span>
+                        <button onclick="removeItem(${index})" class="btn btn-remove"><i class="fas fa-times"></i></button>
+                    `;
+                    cartList.appendChild(cartItem);
+                    total += item.price;
+                });
+            }
+
+            totalElement.textContent = total.toFixed(2);
+            checkoutBtn.style.display = cartItems.length === 0 ? 'none' : 'inline-block';
+            checkoutBtn.href = cartItems.length === 0 ? '#' : 'checkout.html';
+        }
+
+        function removeItem(index) {
+            let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            cartItems.splice(index, 1);
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            displayCart();
+        }
+
+        function emptyCart() {
+            localStorage.removeItem('cartItems');
+            displayCart();
+        }
+
+        function displayOrders() {
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            const orderList = document.getElementById('order-list');
+            
+            orderList.innerHTML = '';
+            if (orders.length === 0) {
+                orderList.innerHTML = '<p class="empty-orders">You have no completed orders.</p>';
+            } else {
+                orders.forEach((order, index) => {
+                    const orderItem = document.createElement('div');
+                    orderItem.className = 'order-item';
+                    orderItem.innerHTML = `
+                        <h3>Order ID: ${order.id}</h3>
+                        <p>Date: ${new Date(order.date).toLocaleString()}</p>
+                        <p>Total: $${order.total.toFixed(2)}</p>
+                        <p>Status: ${order.status}</p>
+                        <p>Payment Method: ${order.paymentMethod}</p>
+                        <h4>Items:</h4>
+                        <ul>
+                            ${order.items.map(item => `<li>${item.name} - $${item.price.toFixed(2)}</li>`).join('')}
+                        </ul>
+                    `;
+                    orderList.appendChild(orderItem);
+                });
+            }
+        }
+
+        displayCart();
+        displayOrders();
+    </script>
+    <script src="js/darkmode.js"></script>
+</body>
+</html>
